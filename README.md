@@ -4,8 +4,8 @@ PROYECTO INFO3 - SISTEMA DE GESTION DE INVENTARIO
 ### Integrantes:
 
 ![fede](https://avatars.githubusercontent.com/u/89660005?s=96&v=4) [Federico Alloza](https://github.com/fedealloza)<br>
-![ladri](https://avatars.githubusercontent.com/u/56711040?v=4) [Tomás Lisandro](https://github.com/termocapocha)<br>
-![cande](https://avatars.githubusercontent.com/u/91388721?s=96&v=4) [Candela Zambrano](https://github.com/candeZ)
+![ladri](https://avatars.githubusercontent.com/u/56711040?s=96&v=4) [Tomás Disandro](https://github.com/termocapocha)<br>
+![cande](https://avatars.githubusercontent.com/u/57143392?s=96&v=4) [Candela Zambrano](https://github.com/candeZ)
 
 El proyecto es un programa que simula un inventario utilizando un árbol AVL. Un inventario es una lista de productos con su respectiva cantidad. El programa permite realizar las siguientes operaciones: 
  
