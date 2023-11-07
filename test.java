@@ -71,50 +71,51 @@ public class test {
 
     // Método para insertar un producto en el árbol
     public void insertar(Producto producto) {
-        raiz = insertarRec(raiz, producto);
+        raiz = insertarRec(raiz, producto); // Llama al método recursivo insertarRec con la raíz del árbol y el producto a insertar
     }
 
     // Método recursivo para insertar un producto en el árbol
     private Nodo insertarRec(Nodo nodo, Producto producto) {
         if (nodo == null) {
-            return new Nodo(producto);
+            return new Nodo(producto); // Crea un nuevo nodo con el producto si el nodo actual es nulo
         }
         if (producto.nombre.compareTo(nodo.producto.nombre) < 0) {
-            nodo.izquierdo = insertarRec(nodo.izquierdo, producto);
+            nodo.izquierdo = insertarRec(nodo.izquierdo, producto); // Inserta en el subárbol izquierdo si el nombre es menor
         } else if (producto.nombre.compareTo(nodo.producto.nombre) > 0) {
-            nodo.derecho = insertarRec(nodo.derecho, producto);
+            nodo.derecho = insertarRec(nodo.derecho, producto); // Inserta en el subárbol derecho si el nombre es mayor
         } else {
             // Si el producto ya existe, actualiza la cantidad
             nodo.producto.cantidad += producto.cantidad;
         }
-        nodo.altura = 1 + Math.max(altura(nodo.izquierdo), altura(nodo.derecho));
-        int equilibrio = obtenerEquilibrio(nodo);
-        // Casos de rotación
+        nodo.altura = 1 + Math.max(altura(nodo.izquierdo), altura(nodo.derecho)); // Actualiza la altura del nodo
+        int equilibrio = obtenerEquilibrio(nodo); // Calcula el equilibrio del nodo
+        // Casos de rotación para restaurar el equilibrio
         if (equilibrio > 1) {
             if (producto.nombre.compareTo(nodo.izquierdo.producto.nombre) < 0) {
-                return rotarDerecha(nodo);
+                return rotarDerecha(nodo); // Rotación a la derecha
             } else {
                 nodo.izquierdo = rotarIzquierda(nodo.izquierdo);
-                return rotarDerecha(nodo);
+                return rotarDerecha(nodo); // Rotación a la derecha después de una rotación a la izquierda
             }
         }
         if (equilibrio < -1) {
             if (producto.nombre.compareTo(nodo.derecho.producto.nombre) > 0) {
-                return rotarIzquierda(nodo);
+                return rotarIzquierda(nodo); // Rotación a la izquierda
             } else {
                 nodo.derecho = rotarDerecha(nodo.derecho);
-                return rotarIzquierda(nodo);
+                return rotarIzquierda(nodo); // Rotación a la izquierda después de una rotación a la derecha
             }
         }
-        return nodo;
+        return nodo; // Devuelve el nodo actual, que puede haber cambiado debido a las operaciones de inserción y rotación
     }
+
 
     // Método para eliminar un producto del árbol
     public void eliminar(String nombre) throws Exception {
         Scanner var = new Scanner(System.in);
         System.out.print("Ingrese la cantidad a eliminar: ");
         int cantidadEliminar = var.nextInt();
-        raiz = eliminarRec(raiz, nombre, cantidadEliminar);
+        raiz = eliminarRec(raiz, nombre, cantidadEliminar); // Llama al método recursivo eliminarRec con la raíz del árbol
     }
 
     // Método recursivo para eliminar un producto del árbol
@@ -123,45 +124,46 @@ public class test {
             throw new Exception("El producto no se encuentra en el árbol.");
         }
         if (nombre.compareTo(nodo.producto.nombre) < 0) {
-            nodo.izquierdo = eliminarRec(nodo.izquierdo, nombre, cantidadEliminar);
+            nodo.izquierdo = eliminarRec(nodo.izquierdo, nombre, cantidadEliminar); // Busca en el subárbol izquierdo
         } else if (nombre.compareTo(nodo.producto.nombre) > 0) {
-            nodo.derecho = eliminarRec(nodo.derecho, nombre, cantidadEliminar);
+            nodo.derecho = eliminarRec(nodo.derecho, nombre, cantidadEliminar); // Busca en el subárbol derecho
         } else {
             // Si el producto existe, se descuenta la cantidad
             nodo.producto.cantidad -= cantidadEliminar;
             if (nodo.producto.cantidad <= 0) {
                 // Si la cantidad llega a cero o menos, se elimina el nodo
                 if (nodo.izquierdo == null) {
-                    return nodo.derecho;
+                    return nodo.derecho; // Reemplaza el nodo por su hijo derecho
                 } else if (nodo.derecho == null) {
-                    return nodo.izquierdo;
+                    return nodo.izquierdo; // Reemplaza el nodo por su hijo izquier mdo
                 }
-                Nodo sucesor = encontrarSucesor(nodo.derecho);
-                nodo.producto = sucesor.producto;
-                nodo.derecho = eliminarRec(nodo.derecho, sucesor.producto.nombre, cantidadEliminar);
+                Nodo sucesor = encontrarSucesor(nodo.derecho); // Encuentra el sucesor en el subárbol derecho
+                nodo.producto = sucesor.producto; // Copia el sucesor al nodo actual
+                nodo.derecho = eliminarRec(nodo.derecho, sucesor.producto.nombre, cantidadEliminar); // Elimina el sucesor
             }
         }
         nodo.altura = 1 + Math.max(altura(nodo.izquierdo), altura(nodo.derecho));
-        int equilibrio = obtenerEquilibrio(nodo);
-        // Casos de rotación
+        int equilibrio = obtenerEquilibrio(nodo); // Calcula el equilibrio del nodo
+        // Casos de rotación para restaurar el equilibrio
         if (equilibrio > 1) {
             if (nombre.compareTo(nodo.izquierdo.producto.nombre) < 0) {
-                return rotarDerecha(nodo);
+                return rotarDerecha(nodo); // Rotación a la derecha
             } else {
                 nodo.izquierdo = rotarIzquierda(nodo.izquierdo);
-                return rotarDerecha(nodo);
+                return rotarDerecha(nodo); // Rotación a la derecha después de una rotación a la izquierda
             }
         }
         if (equilibrio < -1) {
             if (nombre.compareTo(nodo.derecho.producto.nombre) > 0) {
-                return rotarIzquierda(nodo);
+                return rotarIzquierda(nodo); // Rotación a la izquierda
             } else {
                 nodo.derecho = rotarDerecha(nodo.derecho);
-                return rotarIzquierda(nodo);
+                return rotarIzquierda(nodo); // Rotación a la izquierda después de una rotación a la derecha
             }
         }
-        return nodo;
+        return nodo; // Devuelve el nodo actual, que puede haber cambiado debido a las operaciones de eliminación y rotación
     }
+
 
     // Método para encontrar el sucesor de un nodo
     private Nodo encontrarSucesor(Nodo nodo) {
@@ -190,45 +192,24 @@ public class test {
 
     // Método para buscar un producto en el árbol
     public Producto buscar(String nombre) throws Exception {
-        return buscarRec(raiz, nombre);
+        return buscarRec(raiz, nombre); // Llama al método recursivo buscarRec con la raíz del árbol y el nombre del producto a buscar
     }
 
-    /*
-     * - El método toma dos parámetros: nodo , que representa el nodo actual en el
-     * que estamos buscando, y nombre , que es el nombre del producto que queremos
-     * encontrar.
-     * - Primero, verifica si el nodo actual es nulo o si el nombre del producto en
-     * el nodo coincide con el nombre que estamos buscando.
-     * - Si es así, se imprime un mensaje indicando que el producto ha sido
-     * encontrado y se devuelve el objeto Producto correspondiente al nodo.
-     * - Si el nodo actual no es nulo y el nombre del producto no coincide, se
-     * realiza una comparación para determinar si debemos buscar en el subárbol
-     * izquierdo o en el subárbol derecho.
-     * - Si el nombre que estamos buscando es menor que el nombre del producto en el
-     * nodo actual, llamamos al método buscarRec recursivamente pasando el subárbol
-     * izquierdo como parámetro.
-     * - Si el nombre que estamos buscando es mayor que el nombre del producto en el
-     * nodo actual, llamamos al método buscarRec recursivamente pasando el subárbol
-     * derecho como parámetro.
-     * - Si no se encuentra el producto en el árbol, se imprime un mensaje indicando
-     * que el producto no ha sido encontrado y se devuelve null .
-     */
-    // Método recursivo para buscar un producto en el árbol
     // Método recursivo para buscar un producto en el árbol
     private Producto buscarRec(Nodo nodo, String nombre) throws Exception {
         if (nodo == null) {
             throw new Exception("El producto no se encuentra en el árbol.");
         }
         if (nombre.equals(nodo.producto.nombre)) {
-            System.out
-                    .println("Producto encontrado: " + nodo.producto.nombre + ", Cantidad: " + nodo.producto.cantidad);
-            return nodo.producto;
+            System.out.println("Producto encontrado: " + nodo.producto.nombre + ", Cantidad: " + nodo.producto.cantidad);
+            return nodo.producto; // El producto se ha encontrado en el nodo actual
         }
         if (nombre.compareTo(nodo.producto.nombre) < 0) {
-            return buscarRec(nodo.izquierdo, nombre);
+            return buscarRec(nodo.izquierdo, nombre); // Busca en el subárbol izquierdo si el nombre es menor
         }
-        return buscarRec(nodo.derecho, nombre);
+        return buscarRec(nodo.derecho, nombre); // Busca en el subárbol derecho si el nombre es mayor
     }
+
 
     public static void main(String[] args) {
         test arbol = new test();
