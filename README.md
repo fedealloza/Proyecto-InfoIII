@@ -7,7 +7,7 @@ PROYECTO INFO3 - SISTEMA DE GESTION DE INVENTARIO
 [Tomás Disandro](https://github.com/termocapocha)<br>
 [Candela Zambrano](https://github.com/candeZ)
 
-El proyecto es un programa que simula un inventario utilizando un árbol AVL. Un inventario es una lista de productos con su respectiva cantidad. El programa permite realizar las siguientes operaciones: 
+El proyecto es un programa que simula un inventario utilizando un árbol AVL. El programa permite realizar las siguientes operaciones: 
  
 1. Agregar Producto: Permite agregar un producto al inventario. El usuario debe ingresar el nombre del producto y la cantidad a agregar. 
  
