@@ -1,6 +1,5 @@
-import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 class Producto {
@@ -27,11 +26,11 @@ class Nodo {
 
 public class inventario {
     private Nodo raiz;
-    private List<Producto> listaProductos;
+    private LinkedList<Producto> listaProductos;
 
     public inventario() {
         raiz = null;
-        listaProductos = new ArrayList<>();
+        listaProductos = new LinkedList<>();
     }
 
     private int altura(Nodo nodo) {
@@ -72,8 +71,7 @@ public class inventario {
 
     // Método para insertar un producto en el árbol
     public void insertar(Producto producto) {
-        raiz = insertarRec(raiz, producto); // Llama al método recursivo insertarRec con la raíz del árbol y el producto
-                                            // a insertar
+        raiz = insertarRec(raiz, producto); // Llama al método recursivo insertarRec con la raíz del árbol y el producto a insertar
     }
 
     // Método recursivo para insertar un producto en el árbol
@@ -82,8 +80,7 @@ public class inventario {
             return new Nodo(producto); // Crea un nuevo nodo con el producto si el nodo actual es nulo
         }
         if (producto.nombre.compareTo(nodo.producto.nombre) < 0) {
-            nodo.izquierdo = insertarRec(nodo.izquierdo, producto); // Inserta en el subárbol izquierdo si el nombre es
-                                                                    // menor
+            nodo.izquierdo = insertarRec(nodo.izquierdo, producto); // Inserta en el subárbol izquierdo si el nombre es menor
         } else if (producto.nombre.compareTo(nodo.producto.nombre) > 0) {
             nodo.derecho = insertarRec(nodo.derecho, producto); // Inserta en el subárbol derecho si el nombre es mayor
         } else {
@@ -109,8 +106,7 @@ public class inventario {
                 return rotarIzquierda(nodo); // Rotación a la izquierda después de una rotación a la derecha
             }
         }
-        return nodo; // Devuelve el nodo actual, que puede haber cambiado debido a las operaciones de
-                     // inserción y rotación
+        return nodo; // Devuelve el nodo actual, que puede haber cambiado debido a las operaciones de inserción y rotación
     }
 
     // Método para eliminar un producto del árbol
@@ -118,16 +114,12 @@ public class inventario {
         Scanner var = new Scanner(System.in);
         System.out.print("Ingrese la cantidad a eliminar: ");
         int cantidadEliminar = var.nextInt();
-        raiz = eliminarRec(raiz, nombre, cantidadEliminar); // Llama al método recursivo eliminarRec con la raíz del
-                                                            // árbol
+        raiz = eliminarRec(raiz, nombre, cantidadEliminar); // Llama al método recursivo eliminarRec con la raíz del árbol
     }
 
     // Método recursivo para eliminar un producto del árbol
     private Nodo eliminarRec(Nodo nodo, String nombre, int cantidadEliminar) throws Exception {
         int tmpCantidad = nodo.producto.cantidad;
-        if (nodo == null) {
-            throw new Exception("El producto no se encuentra en el árbol.");
-        }
         if (nombre.compareTo(nodo.producto.nombre) < 0) {
             nodo.izquierdo = eliminarRec(nodo.izquierdo, nombre, cantidadEliminar); // Busca en el subárbol izquierdo
         } else if (nombre.compareTo(nodo.producto.nombre) > 0) {
@@ -172,8 +164,7 @@ public class inventario {
                 return rotarIzquierda(nodo); // Rotación a la izquierda después de una rotación a la derecha
             }
         }
-        return nodo; // Devuelve el nodo actual, que puede haber cambiado debido a las operaciones de
-                     // eliminación y rotación
+        return nodo; // Devuelve el nodo actual, que puede haber cambiado debido a las operaciones de eliminación y rotación
     }
 
     // Método para encontrar el sucesor de un nodo
@@ -191,8 +182,7 @@ public class inventario {
         mostrarInordenRec(raiz);
     }
 
-    // Método recursivo para recorrer el árbol en orden y almacenar los productos en
-    // la lista
+    // Método recursivo para recorrer el árbol en orden y almacenar los productos en la lista
     private void mostrarInordenRec(Nodo nodo) {
         if (nodo != null) {
             mostrarInordenRec(nodo.izquierdo);
@@ -203,8 +193,7 @@ public class inventario {
 
     // Método para buscar un producto en el árbol
     public Producto buscar(String nombre) throws Exception {
-        return buscarRec(raiz, nombre); // Llama al método recursivo buscarRec con la raíz del árbol y el nombre del
-                                        // producto a buscar
+        return buscarRec(raiz, nombre); // Llama al método recursivo buscarRec con la raíz del árbol y el nombre del producto a buscar
     }
 
     // Método recursivo para buscar un producto en el árbol
@@ -223,6 +212,38 @@ public class inventario {
         return buscarRec(nodo.derecho, nombre); // Busca en el subárbol derecho si el nombre es mayor
     }
 
+    public boolean esArbolBalanceado(Nodo nodo) {
+        if (nodo == null) {
+            return true; // Un árbol vacío se considera balanceado
+        }
+    
+        int alturaIzquierdo = altura(nodo.izquierdo); // Calcula la altura del subárbol izquierdo
+        int alturaDerecho = altura(nodo.derecho); // Calcula la altura del subárbol derecho
+    
+        // Verificar si la diferencia de altura es mayor que 1
+        if (Math.abs(alturaIzquierdo - alturaDerecho) > 1) {
+            return false; // Si la diferencia es mayor que 1, el árbol no es balanceado
+        }
+    
+        // Verificar la condición de equilibrio para los subárboles izquierdo y derecho
+        return esArbolBalanceado(nodo.izquierdo) && esArbolBalanceado(nodo.derecho);
+    }
+    
+    public boolean esArbolBalanceado() {
+        return esArbolBalanceado(raiz); // Llama a la función para verificar si todo el árbol es balanceado
+    }
+    
+    public void imprimirArbol(Nodo nodo, String prefijo, boolean esIzquierdo) {
+        if (nodo != null) {
+            // Imprime el nombre del producto en el nodo con formato jerárquico
+            System.out.println(prefijo + (esIzquierdo ? "├── " : "└── ") + nodo.producto.nombre);
+    
+            // Llama recursivamente para imprimir los subárboles izquierdo y derecho con prefijo adecuado
+            imprimirArbol(nodo.izquierdo, prefijo + (esIzquierdo ? "│   " : "    "), true);
+            imprimirArbol(nodo.derecho, prefijo + (esIzquierdo ? "│   " : "    "), false);
+        }
+    }
+
     public static void main(String[] args) {
         inventario arbol = new inventario();
         Scanner var = new Scanner(System.in);
@@ -233,7 +254,10 @@ public class inventario {
             System.out.println("2- Eliminar Producto.");
             System.out.println("3- Buscar Producto.");
             System.out.println("4- Mostrar Inventario.");
-            System.out.println("0- Salir.");
+            System.out.println("---------EXTRAS-------------");
+            System.out.println("5- Verificar si el árbol es balanceado.");
+            System.out.println("6- Imprimir Arbol.");
+            System.out.println("\n0- Salir.");
             try {
                 System.out.print("\nIngrese la opción: ");
                 opcion = var.nextInt();
@@ -267,9 +291,19 @@ public class inventario {
                     case 4:
                         arbol.mostrarInorden();
                         System.out.println("\nLista de productos en orden alfabético:");
+                        //Este bucle for-each recorre cada elemento de la lista arbol.listaProductos, 
+                        //que contiene objetos de la clase Producto. 
+                        //El nombre producto es una variable temporal que representa cada elemento de la lista en cada iteración.
                         for (Producto producto : arbol.listaProductos) {
                             System.out.println("Producto: " + producto.nombre + ", Cantidad: " + producto.cantidad);
                         }
+                        break;
+                    case 5:
+                        boolean esBalanceado = arbol.esArbolBalanceado();
+                        System.out.println("El árbol está balanceado: " + esBalanceado);
+                        break;
+                    case 6:
+                        arbol.imprimirArbol(arbol.raiz, "", true);
                         break;
                 }
             } catch (InputMismatchException e) {
