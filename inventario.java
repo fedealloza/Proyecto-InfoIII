@@ -120,6 +120,7 @@ public class inventario {
 
     // Método recursivo para eliminar un producto del árbol
     private Nodo eliminarRec(Nodo nodo, String nombre, int cantidadEliminar) throws Exception {
+        int tmpCantidad = nodo.producto.cantidad;
         if (nodo == null) {
             throw new Exception("El producto no se encuentra en el árbol.");
         }
@@ -129,9 +130,10 @@ public class inventario {
             nodo.derecho = eliminarRec(nodo.derecho, nombre, cantidadEliminar); // Busca en el subárbol derecho
         } else {
             // Si el producto existe, se descuenta la cantidad
-            nodo.producto.cantidad -= cantidadEliminar;
-            if (nodo.producto.cantidad <= 0) {
-                // Si la cantidad llega a cero o menos, se elimina el nodo
+            tmpCantidad -= cantidadEliminar;
+            if (tmpCantidad == 0) {
+                nodo.producto.cantidad -= cantidadEliminar;
+                // Si la cantidad llega a cero, se elimina el nodo
                 if (nodo.izquierdo == null) {
                     return nodo.derecho; // Reemplaza el nodo por su hijo derecho
                 } else if (nodo.derecho == null) {
@@ -140,6 +142,10 @@ public class inventario {
                 Nodo sucesor = encontrarSucesor(nodo.derecho); // Encuentra el sucesor en el subárbol derecho
                 nodo.producto = sucesor.producto; // Copia el sucesor al nodo actual
                 nodo.derecho = eliminarRec(nodo.derecho, sucesor.producto.nombre, cantidadEliminar); // Elimina el sucesor
+            }
+            else if (tmpCantidad<0) {
+                System.out.print("La cantidad ingresada no se encuentra disponible en stock.");
+                
             }
         }
         nodo.altura = 1 + Math.max(altura(nodo.izquierdo), altura(nodo.derecho));
