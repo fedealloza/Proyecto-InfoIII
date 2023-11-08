@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -233,42 +234,48 @@ public class inventario {
             System.out.println("3- Buscar Producto.");
             System.out.println("4- Mostrar Inventario.");
             System.out.println("0- Salir.");
-            System.out.print("\nIngrese la opción: ");
-            opcion = var.nextInt();
-            var.nextLine(); // Consumir el salto de línea pendiente
-            switch (opcion) {
-                case 1:
-                    System.out.print("Ingrese el nombre del producto: ");
-                    String nombre = var.nextLine();
-                    System.out.print("Ingrese la cantidad a ingresar: ");
-                    int cantidad = var.nextInt();
-                    arbol.insertar(new Producto(nombre, cantidad));
-                    break;
-                case 2:
-                    try {
-                        System.out.print("Ingrese el nombre del producto a eliminar: ");
-                        String nombreEliminar = var.nextLine();
-                        arbol.eliminar(nombreEliminar);
-                    } catch (Exception e) {
-                        System.out.println("ERROR: NO SE ENCONTRO EL PRODUCTO: " + e.getMessage());
-                    }
-                    break;
-                case 3:
-                    try {
-                        System.out.print("Ingrese el nombre del producto a buscar: ");
-                        String nombreBuscar = var.nextLine();
-                        arbol.buscar(nombreBuscar);
-                    } catch (Exception e) {
-                        System.out.println("ERROR: NO EXISTE EL PRODUCTO EN EL INVENTARIO: " + e.getMessage());
-                    }
-                    break;
-                case 4:
-                    arbol.mostrarInorden();
-                    System.out.println("\nLista de productos en orden alfabético:");
-                    for (Producto producto : arbol.listaProductos) {
-                        System.out.println("Producto: " + producto.nombre + ", Cantidad: " + producto.cantidad);
-                    }
-                    break;
+            try {
+                System.out.print("\nIngrese la opción: ");
+                opcion = var.nextInt();
+                var.nextLine(); // Consumir el salto de línea pendiente
+                switch (opcion) {
+                    case 1:
+                        System.out.print("Ingrese el nombre del producto: ");
+                        String nombre = var.nextLine();
+                        System.out.print("Ingrese la cantidad a ingresar: ");
+                        int cantidad = var.nextInt();
+                        arbol.insertar(new Producto(nombre, cantidad));
+                        break;
+                    case 2:
+                        try {
+                            System.out.print("Ingrese el nombre del producto a eliminar: ");
+                            String nombreEliminar = var.nextLine();
+                            arbol.eliminar(nombreEliminar);
+                        } catch (Exception e) {
+                            System.out.println("ERROR: NO SE ENCONTRO EL PRODUCTO: " + e.getMessage());
+                        }
+                        break;
+                    case 3:
+                        try {
+                            System.out.print("Ingrese el nombre del producto a buscar: ");
+                            String nombreBuscar = var.nextLine();
+                            arbol.buscar(nombreBuscar);
+                        } catch (Exception e) {
+                            System.out.println("ERROR: NO EXISTE EL PRODUCTO EN EL INVENTARIO: " + e.getMessage());
+                        }
+                        break;
+                    case 4:
+                        arbol.mostrarInorden();
+                        System.out.println("\nLista de productos en orden alfabético:");
+                        for (Producto producto : arbol.listaProductos) {
+                            System.out.println("Producto: " + producto.nombre + ", Cantidad: " + producto.cantidad);
+                        }
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("ERROR: Debe ingresar un número entero para seleccionar una opción.");
+                var.nextLine(); // Consumir la entrada inválida
+                opcion = -1; // Establecer una opción inválida para continuar el bucle
             }
         } while (opcion != 0);
     }
