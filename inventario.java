@@ -71,7 +71,8 @@ public class inventario {
 
     // Método para insertar un producto en el árbol
     public void insertar(Producto producto) {
-        raiz = insertarRec(raiz, producto); // Llama al método recursivo insertarRec con la raíz del árbol y el producto a insertar
+        raiz = insertarRec(raiz, producto); // Llama al método recursivo insertarRec con la raíz del árbol y el producto
+                                            // a insertar
     }
 
     // Método recursivo para insertar un producto en el árbol
@@ -80,7 +81,8 @@ public class inventario {
             return new Nodo(producto); // Crea un nuevo nodo con el producto si el nodo actual es nulo
         }
         if (producto.nombre.compareTo(nodo.producto.nombre) < 0) {
-            nodo.izquierdo = insertarRec(nodo.izquierdo, producto); // Inserta en el subárbol izquierdo si el nombre es menor
+            nodo.izquierdo = insertarRec(nodo.izquierdo, producto); // Inserta en el subárbol izquierdo si el nombre es
+                                                                    // menor
         } else if (producto.nombre.compareTo(nodo.producto.nombre) > 0) {
             nodo.derecho = insertarRec(nodo.derecho, producto); // Inserta en el subárbol derecho si el nombre es mayor
         } else {
@@ -106,16 +108,17 @@ public class inventario {
                 return rotarIzquierda(nodo); // Rotación a la izquierda después de una rotación a la derecha
             }
         }
-        return nodo; // Devuelve el nodo actual, que puede haber cambiado debido a las operaciones de inserción y rotación
+        return nodo; // Devuelve el nodo actual, que puede haber cambiado debido a las operaciones de
+                     // inserción y rotación
     }
-
 
     // Método para eliminar un producto del árbol
     public void eliminar(String nombre) throws Exception {
         Scanner var = new Scanner(System.in);
         System.out.print("Ingrese la cantidad a eliminar: ");
         int cantidadEliminar = var.nextInt();
-        raiz = eliminarRec(raiz, nombre, cantidadEliminar); // Llama al método recursivo eliminarRec con la raíz del árbol
+        raiz = eliminarRec(raiz, nombre, cantidadEliminar); // Llama al método recursivo eliminarRec con la raíz del
+                                                            // árbol
     }
 
     // Método recursivo para eliminar un producto del árbol
@@ -141,11 +144,12 @@ public class inventario {
                 }
                 Nodo sucesor = encontrarSucesor(nodo.derecho); // Encuentra el sucesor en el subárbol derecho
                 nodo.producto = sucesor.producto; // Copia el sucesor al nodo actual
-                nodo.derecho = eliminarRec(nodo.derecho, sucesor.producto.nombre, cantidadEliminar); // Elimina el sucesor
-            }
-            else if (tmpCantidad<0) {
-                System.out.print("La cantidad ingresada no se encuentra disponible en stock.");
-                
+                nodo.derecho = eliminarRec(nodo.derecho, sucesor.producto.nombre, cantidadEliminar); // Elimina el
+                                                                                                     // sucesor
+            } else if (tmpCantidad < 0) {
+                System.out.println(
+                        "La cantidad ingresada es mayor a la que se encuentra disponible en stock.\nLa cantidad disponible de "
+                                + nodo.producto.nombre + " es " + nodo.producto.cantidad);
             }
         }
         nodo.altura = 1 + Math.max(altura(nodo.izquierdo), altura(nodo.derecho));
@@ -167,9 +171,9 @@ public class inventario {
                 return rotarIzquierda(nodo); // Rotación a la izquierda después de una rotación a la derecha
             }
         }
-        return nodo; // Devuelve el nodo actual, que puede haber cambiado debido a las operaciones de eliminación y rotación
+        return nodo; // Devuelve el nodo actual, que puede haber cambiado debido a las operaciones de
+                     // eliminación y rotación
     }
-
 
     // Método para encontrar el sucesor de un nodo
     private Nodo encontrarSucesor(Nodo nodo) {
@@ -198,7 +202,8 @@ public class inventario {
 
     // Método para buscar un producto en el árbol
     public Producto buscar(String nombre) throws Exception {
-        return buscarRec(raiz, nombre); // Llama al método recursivo buscarRec con la raíz del árbol y el nombre del producto a buscar
+        return buscarRec(raiz, nombre); // Llama al método recursivo buscarRec con la raíz del árbol y el nombre del
+                                        // producto a buscar
     }
 
     // Método recursivo para buscar un producto en el árbol
@@ -207,7 +212,8 @@ public class inventario {
             throw new Exception("El producto no se encuentra en el árbol.");
         }
         if (nombre.equals(nodo.producto.nombre)) {
-            System.out.println("Producto encontrado: " + nodo.producto.nombre + ", Cantidad: " + nodo.producto.cantidad);
+            System.out
+                    .println("Producto encontrado: " + nodo.producto.nombre + ", Cantidad: " + nodo.producto.cantidad);
             return nodo.producto; // El producto se ha encontrado en el nodo actual
         }
         if (nombre.compareTo(nodo.producto.nombre) < 0) {
@@ -215,7 +221,6 @@ public class inventario {
         }
         return buscarRec(nodo.derecho, nombre); // Busca en el subárbol derecho si el nombre es mayor
     }
-
 
     public static void main(String[] args) {
         inventario arbol = new inventario();
