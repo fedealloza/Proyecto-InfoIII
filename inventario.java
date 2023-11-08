@@ -2,6 +2,8 @@ import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+
+
 class Producto {
     int cantidad;
     String nombre;
@@ -112,7 +114,7 @@ public class inventario {
     // Método para eliminar un producto del árbol
     public void eliminar(String nombre) throws Exception {
         Scanner var = new Scanner(System.in);
-        System.out.print("Ingrese la cantidad a eliminar: ");
+        System.out.print( "\u001B[94m" + "Ingrese la cantidad a eliminar: "+ "\u001B[0m");
         int cantidadEliminar = var.nextInt();
         raiz = eliminarRec(raiz, nombre, cantidadEliminar); // Llama al método recursivo eliminarRec con la raíz del árbol
     }
@@ -140,9 +142,9 @@ public class inventario {
                 nodo.derecho = eliminarRec(nodo.derecho, sucesor.producto.nombre, cantidadEliminar); // Elimina el
                                                                                                      // sucesor
             } else if (tmpCantidad < 0) {
-                System.out.println(
-                        "La cantidad ingresada es mayor a la que se encuentra disponible en stock.\nLa cantidad disponible de "
-                                + nodo.producto.nombre + " es " + nodo.producto.cantidad);
+                System.out.println( "\u001B[91m"+
+                        "La cantidad ingresada es mayor a la que se encuentra disponible en stock." + "\u001B[0m" + "\nLa cantidad disponible de "
+                                + nodo.producto.nombre + " es " + nodo.producto.cantidad );
             }
         }
         nodo.altura = 1 + Math.max(altura(nodo.izquierdo), altura(nodo.derecho));
@@ -199,11 +201,11 @@ public class inventario {
     // Método recursivo para buscar un producto en el árbol
     private Producto buscarRec(Nodo nodo, String nombre) throws Exception {
         if (nodo == null) {
-            throw new Exception("El producto no se encuentra en el árbol.");
+            throw new Exception("\u001B[91m" + "El producto no se encuentra en el árbol."+ "\u001B[0m");
         }
         if (nombre.equals(nodo.producto.nombre)) {
             System.out
-                    .println("Producto encontrado: " + nodo.producto.nombre + ", Cantidad: " + nodo.producto.cantidad);
+                    .println("\u001B[92m"+ "Producto encontrado: " + nodo.producto.nombre + ", Cantidad: " + nodo.producto.cantidad + "\u001B[0m");
             return nodo.producto; // El producto se ha encontrado en el nodo actual
         }
         if (nombre.compareTo(nodo.producto.nombre) < 0) {
@@ -245,6 +247,12 @@ public class inventario {
     }
 
     public static void main(String[] args) {
+
+        String azul = "\u001B[94m";
+        String rojo = "\u001B[91m";
+        String verde = "\u001B[92m";
+        String reset = "\u001B[0m";
+
         inventario arbol = new inventario();
         Scanner var = new Scanner(System.in);
         int opcion;
@@ -254,38 +262,38 @@ public class inventario {
             System.out.println("2- Eliminar Producto.");
             System.out.println("3- Buscar Producto.");
             System.out.println("4- Mostrar Inventario.");
-            System.out.println("---------EXTRAS-------------");
+            System.out.println("\u001B[95m"+ "---------EXTRAS-------------"+ reset);
             System.out.println("5- Verificar si el árbol es balanceado.");
             System.out.println("6- Imprimir Arbol.");
             System.out.println("\n0- Salir.");
             try {
-                System.out.print("\nIngrese la opción: ");
+                System.out.print(azul+ "\nIngrese la opción: " + reset);
                 opcion = var.nextInt();
                 var.nextLine(); // Consumir el salto de línea pendiente
                 switch (opcion) {
                     case 1:
-                        System.out.print("Ingrese el nombre del producto: ");
+                        System.out.print(azul + "Ingrese el nombre del producto: " + reset);
                         String nombre = var.nextLine();
-                        System.out.print("Ingrese la cantidad a ingresar: ");
+                        System.out.print(azul + "Ingrese la cantidad a ingresar: " + reset);
                         int cantidad = var.nextInt();
                         arbol.insertar(new Producto(nombre, cantidad));
                         break;
                     case 2:
                         try {
-                            System.out.print("Ingrese el nombre del producto a eliminar: ");
+                            System.out.print(azul + "Ingrese el nombre del producto a eliminar: " + reset);
                             String nombreEliminar = var.nextLine();
                             arbol.eliminar(nombreEliminar);
                         } catch (Exception e) {
-                            System.out.println("ERROR: NO SE ENCONTRO EL PRODUCTO: " + e.getMessage());
+                            System.out.println(rojo + "ERROR: NO SE ENCONTRO EL PRODUCTO: " + e.getMessage() + reset );
                         }
                         break;
                     case 3:
                         try {
-                            System.out.print("Ingrese el nombre del producto a buscar: ");
+                            System.out.print(azul + "Ingrese el nombre del producto a buscar: "+ reset);
                             String nombreBuscar = var.nextLine();
                             arbol.buscar(nombreBuscar);
                         } catch (Exception e) {
-                            System.out.println("ERROR: NO EXISTE EL PRODUCTO EN EL INVENTARIO: " + e.getMessage());
+                            System.out.println(rojo + "ERROR: NO EXISTE EL PRODUCTO EN EL INVENTARIO: " + e.getMessage()+ reset);
                         }
                         break;
                     case 4:
@@ -307,7 +315,7 @@ public class inventario {
                         break;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("ERROR: Debe ingresar un número entero para seleccionar una opción.");
+                System.out.println(rojo + "ERROR: Debe ingresar un número entero para seleccionar una opción." + reset);
                 var.nextLine(); // Consumir la entrada inválida
                 opcion = -1; // Establecer una opción inválida para continuar el bucle
             }
